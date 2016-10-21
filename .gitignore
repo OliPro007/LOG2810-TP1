@@ -2,3 +2,5 @@
 [rR]elease/
 *.vcxproj
 *.vcxproj.*
+.idea/
+CMakeLists.txt
