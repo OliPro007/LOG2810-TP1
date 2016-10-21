@@ -11,9 +11,9 @@
 using namespace std;
 
 
-Graphe* creerGraphe(const std::string& nomFichier);
+Graphe* creerGraphe(const string& nomFichier);
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax);
-void lireGraphe() { return; }
+void lireGraphe() { return; } //TODO Complete
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -39,81 +39,89 @@ int main() {
             break;
 
         switch (choix) {
+            case 1: 
+                {
+                    string typeVehicule;
+                    TypeCarburant type;
+                    int autonomieMax, autonomieActuelle;
 
-            case 1: {
-                string typeVehicule;
-                TypeCarburant type;
-                int autonomieMax, autonomieActuelle;
+                    // Determine le type de vehicule
+                    cout << "Entrez les caracteristique du vehicule selon la methode suivante:" << endl
+                         << "Type de vehicule (choix: (e)ssence; e(l)ectrique; (h)ybrid): ";
 
-                // Determine le type de vehicule
-                cout << "Entrez les caracteristique du vehicule selon la methode suivante:" << endl
-                     << "Type de vehicule (choix: (e)ssence; e(l)ectrique; (h)ybrid): ";
+                    cin >> typeVehicule;
 
-                cin >> typeVehicule;
+                    if (typeVehicule == "e")
+                        type = TypeCarburant::essence;
+                    else if (typeVehicule == "l")
+                        type = TypeCarburant::electrique;
+                    else if (typeVehicule == "h")
+                        type = TypeCarburant::hybrid;
+                    else {
+                        cerr << "ERREUR: Type de vehicule invalide" << endl;
+                        break;
+                    }
 
-                if (typeVehicule == "e")
-                    type = TypeCarburant::essence;
-                else if (typeVehicule == "l")
-                    type = TypeCarburant::electrique;
-                else if (typeVehicule == "h")
-                    type = TypeCarburant::hybrid;
-                else {
-                    cout << "ERREUR: Type de vehicule invalide" << endl;
-                    break;
+                    // Determine l'autonomie maximale et actuelle du vehicule
+                    cout << "Autonomie maximale du vehicule: ";
+                    cin >> autonomieMax;
+
+                    cout << "Autonomie actuelle du vehicule: ";
+                    cin >> autonomieActuelle;
+
+                    if(autonomieActuelle > autonomieMax) {
+                        cerr << "ERREUR: L'autonomie actuelle ne peut pas etre superieure a l'autonomie maximale!" << endl;
+                        break;
+                    }
+
+                    // Cree le vehicule
+                    vehicule = Vehicule(type, autonomieMax, autonomieActuelle);
                 }
-
-                // Determine l'autonomie maximale et actuelle du vehicule
-                cout << "Autonomie maximale du vehicule: ";
-                cin >> autonomieMax;
-
-                cout << "Autonomie actuelle du vehicule: ";
-                cin >> autonomieActuelle;
-
-                // Cree le vehicule
-                vehicule = Vehicule(type, autonomieMax, autonomieActuelle);
-            }
                 break;
 
-            case 2: {
-                string nomFichier;
-                cout << "Entrez le nom du fichier contenant les informations sur la carte: ";
-                cin >> nomFichier;
+            case 2: 
+                {
+                    string nomFichier;
+                    cout << "Entrez le nom du fichier contenant les informations sur la carte: ";
+                    cin >> nomFichier;
 
-                // Cree et affiche le graphe
-                graphe = creerGraphe(nomFichier);
-                lireGraphe();
-            }
+                    // Cree et affiche le graphe
+                    graphe = creerGraphe(nomFichier);
+                    lireGraphe();
+                }
                 break;
 
-            case 3: {
-                string depart, arrive;
-                if (vehicule.getTypeCarburant() == TypeCarburant::rien) {
-                    cout << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
-                         << endl;
-                    break;
-                } else if (!graphe) {
-                    cout << "ERREUR: Une carte est necessaire a la recherche d'un itineraire" << endl;
-                    break;
+            case 3:
+                {
+                    string depart, arrive;
+                    if (vehicule.getTypeCarburant() == TypeCarburant::rien) {
+                        cerr << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
+                             << endl;
+                        break;
+                    } else if (!graphe) {
+                        cerr << "ERREUR: Une carte est necessaire a la recherche d'un itineraire" << endl;
+                        break;
+                    }
+
+                    cout << "Entrez la station de depart: ";
+                    cin >> depart;
+
+                    cout << "Entrez la station d'arrive: ";
+                    cin >> arrive;
+
+                    // TODO verify that the stations really exist
+                    // TODO call plusCourtChemin
                 }
-
-                cout << "Entrez la station de depart: ";
-                cin >> depart;
-
-                cout << "Entrez la station d'arrive: ";
-                cin >> arrive;
-
-                // TODO call plusCourtChemin
-            }
                 break;
 
             default:
-                cout << "ERREUR: Choix invalide" << endl;
+                cerr << "ERREUR: Choix invalide" << endl;
                 break;
         }
     }
+
     delete graphe;
     return 0;
-
 } // main
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -179,14 +187,14 @@ Graphe* creerGraphe(const string& nomFichier) {
 //----------------------------------------------------------------------------------------------------------------------
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax) {
     //---------------------------------------------------- Variable ----------------------------------------------------
-    Graphe* sousGraphe;
+    Graphe* sousGraphe = nullptr;
 
     //------------------------------------------------------ Code ------------------------------------------------------
-    for (auto sommet : graphe->getSommet()) {
+    /*for (auto sommet : graphe->getSommet()) {
         for (auto arc : sommet->getArc()) {
 
         }
-    }
+    }*/
 
     return sousGraphe;
 } // extractionGraphe
