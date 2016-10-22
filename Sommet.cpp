@@ -2,8 +2,8 @@
 
 using namespace std;
 
-Sommet::Sommet(char nom, TypeCarburant valeur):
-        _nom(nom), _valeur(valeur) {}
+Sommet::Sommet(char nom, TypeCarburant valeur)
+    : _nom(nom), _valeur(valeur) {}
 
 Sommet::~Sommet() {}
 

@@ -2,15 +2,19 @@
 #include "Sommet.h"
 
 Arc::Arc()
-        : _fin(nullptr), _distance(0) {}
+    : _fin(nullptr), _distance(0) {}
 
-Arc::Arc(Sommet *fin, int distance)
+Arc::Arc(Sommet* fin, int distance)
     : _fin(fin), _distance(distance) {}
 
 Arc::~Arc() {
     _fin = nullptr;
 }
 
-Sommet* Arc::getFin() { return _fin; }
+Sommet* Arc::getFin() const {
+    return _fin;
+}
 
-int Arc::getDistance() { return _distance; }
+int Arc::getDistance() const {
+    return _distance;
+}

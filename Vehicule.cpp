@@ -9,10 +9,18 @@ Vehicule::Vehicule(TypeCarburant type, int autonomieMax, int autonomieActuelle)
 
 Vehicule::~Vehicule() {}
 
-TypeCarburant  Vehicule::getTypeCarburant() { return  _type; }
+TypeCarburant  Vehicule::getTypeCarburant() const {
+    return  _type;
+}
 
-int Vehicule::getAutonomieMax() { return _autonomieMax; }
+int Vehicule::getAutonomieMax() const {
+    return _autonomieMax;
+}
 
-int Vehicule::getAutonomieActuelle() { return _autonomieActuelle; }
+int Vehicule::getAutonomieActuelle() const {
+    return _autonomieActuelle;
+}
 
-void Vehicule::setAutonomieActuelle(int autonomie) { _autonomieActuelle = autonomie; }
+void Vehicule::setAutonomieActuelle(int autonomie) {
+    _autonomieActuelle = autonomie;
+}

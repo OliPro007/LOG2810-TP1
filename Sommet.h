@@ -6,13 +6,13 @@
 
 class Sommet {
 public:
-	Sommet(char nom, TypeCarburant valeur);
-	~Sommet();
+    Sommet(char nom, TypeCarburant valeur);
+    ~Sommet();
 
-	friend std::ostream& operator<<(std::ostream& o, const Sommet& sommet);
+    friend std::ostream& operator<<(std::ostream& o, const Sommet& sommet);
 
 private:
-	char _nom;
-	TypeCarburant _valeur;
+    char _nom;
+    TypeCarburant _valeur;
 
 };

@@ -27,11 +27,14 @@ int main() {
 
     //------------------------------------------------------ Code ------------------------------------------------------
     while (true) {
-        cout << "Veuillez choisir une option:" << endl
-             << "1: Entrer les caracteristique du vehicule" << endl
-             << "2: Mettre a jour la carte" << endl
-             << "3: Trouver un itineraire" << endl
-             << "4: Quitter" << endl;
+        cout << "====================================================" << endl
+             << "=== Veuillez choisir une option:" << endl
+             << "===     1: Entrer les caracteristique du vehicule" << endl
+             << "===     2: Mettre a jour la carte" << endl
+             << "===     3: Trouver un itineraire" << endl
+             << "===     4: Quitter" << endl
+             << "====================================================" << endl
+             << "Votre choix: ";
 
         cin >> choix;
 
@@ -70,7 +73,7 @@ int main() {
                     cin >> autonomieActuelle;
 
                     if(autonomieActuelle > autonomieMax) {
-                        cerr << "ERREUR: L'autonomie actuelle ne peut pas etre superieure a l'autonomie maximale!" << endl;
+                        cerr << "ERREUR: L'autonomie actuelle ne peut pas etre superieure a l'autonomie maximale" << endl;
                         break;
                     }
 
@@ -133,6 +136,11 @@ Graphe* creerGraphe(const string& nomFichier) {
     string donnees;
 
     vector<Sommet*> sommets;
+
+    if(fichier.fail()) {
+        cerr << "ERREUR: Impossible de lire le fichier " << nomFichier << endl;
+        return nullptr;
+    }
 
     // Lire la premiere ligne (Donnees des sommets)
     cout << "Donnees des sommets" << endl;

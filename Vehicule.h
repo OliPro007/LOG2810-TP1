@@ -8,10 +8,10 @@ public:
     Vehicule(TypeCarburant type, int autonomieMax, int autonomieActuelle);
     ~Vehicule();
 
-    TypeCarburant  getTypeCarburant();
-    int getAutonomieMax();
+    TypeCarburant  getTypeCarburant() const;
+    int getAutonomieMax() const;
 
-    int getAutonomieActuelle();
+    int getAutonomieActuelle() const;
     void setAutonomieActuelle(int autonomie);
 
 private:

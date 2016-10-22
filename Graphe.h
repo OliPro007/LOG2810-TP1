@@ -7,13 +7,13 @@
 
 class Graphe {
 public:
-	Graphe(const std::vector<Sommet*>& sommets);
-	~Graphe();
+    Graphe(const std::vector<Sommet*>& sommets);
+    ~Graphe();
 
-	void afficher();
-	std::vector<Sommet*> getSommet();
+    void afficher() const;
+    const std::vector<Sommet*>& getSommet() const;
 
 private:
-	std::vector<Sommet*> _sommets;
+    std::vector<Sommet*> _sommets;
 
 };

@@ -1,22 +1,22 @@
-#include <vector>
-
 #include "Graphe.h"
 
 using namespace std;
 
-Graphe::Graphe(const vector<Sommet*>& sommets):
-        _sommets(sommets) {}
+Graphe::Graphe(const vector<Sommet*>& sommets)
+    : _sommets(sommets) {}
 
 Graphe::~Graphe() {
-	for(auto sommet : _sommets) {
-		delete sommet;
-	}
+    for(auto sommet : _sommets) {
+        delete sommet;
+    }
 }
 
-std::vector<Sommet*> Graphe::getSommet() { return _sommets; }
-
-void Graphe::afficher() {
+void Graphe::afficher() const {
     for (auto sommet : _sommets) {
         cout << sommet << endl;
     }
+}
+
+const std::vector<Sommet*>& Graphe::getSommet() const {
+    return _sommets;
 }
