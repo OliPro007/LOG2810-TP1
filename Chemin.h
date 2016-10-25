@@ -15,13 +15,13 @@ public:
 
     bool contains(Sommet* sommet);
 
-    int getDistance();
+    int getDistance() const;
     Vehicule* getVehicule();
-    std::vector<Sommet*> getSommets();
+    std::vector<Sommet*> getSommets() const;
 
     void addSommet(Sommet* sommet, int distance);
 
-    friend std::ostream& operator<<(std::ostream& o, Chemin& chemin);
+    friend std::ostream& operator<<(std::ostream& o, const Chemin& chemin);
 
 private:
     std::vector<Sommet*> _sommets;

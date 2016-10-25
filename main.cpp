@@ -14,8 +14,8 @@ using namespace std;
 
 Graphe* creerGraphe(const string& nomFichier);
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax);
+void lireGraphe(Graphe* graphe); //TODO Complete
 void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule);
-void lireGraphe() { return; } //TODO Complete
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ int main() {
 
                 // Cree et affiche le graphe
                 graphe = creerGraphe(nomFichier);
-                lireGraphe();
+                lireGraphe(graphe);
             }
                 break;
 
@@ -147,7 +147,6 @@ Graphe* creerGraphe(const string& nomFichier) {
     }
 
     // Lire la premiere ligne (Donnees des sommets)
-    cout << "Donnees des sommets" << endl;
     fichier >> donnees;
     parser.str(donnees);
     while (!parser.eof()) {
@@ -157,14 +156,11 @@ Graphe* creerGraphe(const string& nomFichier) {
         getline(parser, valeurSommet, ';');
 
         if (nomSommet != "" && valeurSommet != "") {
-            cout << "Nom du sommet: " << nomSommet << " Valeur du sommet: " << valeurSommet << endl;
-
             sommets.push_back(new Sommet(nomSommet.at(0), valeurSommet.at(0)));
         }
     }
 
     // Lire la deuxieme ligne (Donnees des arcs)
-    cout << endl << "Donnees des arcs" << endl;
     fichier >> donnees;
     parser.clear();
     parser.str(donnees);
@@ -177,7 +173,6 @@ Graphe* creerGraphe(const string& nomFichier) {
         getline(parser, distance, ';');
 
         if (sommet1 != "" && sommet2 != "" && distance != "") {
-            cout << "Sommet1: " << sommet1 << " Sommet2: " << sommet2 << " Distance: " << distance << endl;
             for (auto sommet : sommets) {
                 if (sommet->getName() == sommet1.at(0)) {
                     for (auto fin : sommets) {
@@ -193,6 +188,14 @@ Graphe* creerGraphe(const string& nomFichier) {
 
     return new Graphe(sommets);
 } // creerGraphe
+
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------- lireGraphe
+//----------------------------------------------------------------------------------------------------------------------
+void lireGraphe(Graphe* graphe) {
+	cout << "Graphe actuel: " << endl;
+	graphe->afficher();
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------- extractionGraphe
