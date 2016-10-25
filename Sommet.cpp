@@ -1,4 +1,5 @@
 #include "Sommet.h"
+#include <iterator>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ void Sommet::addArc(Arc* arc)
 }
 
 ostream& operator<<(ostream& o, const Sommet& sommet) {
-    o << sommet._nom << ",";
+    o << "(" << sommet._nom << ",";
     switch(sommet._valeur) {
         case 'r':
             o << "rien";
@@ -48,5 +49,19 @@ ostream& operator<<(ostream& o, const Sommet& sommet) {
         case 'h':
             o << "hybrid";
     }
+
+	if (sommet._arcs.size() > 0) {
+		o << ", (";
+
+		for (auto it = sommet._arcs.begin(); it != sommet._arcs.end(); it++) {
+			o << **it;
+			if (it != sommet._arcs.end() - 1) o << ",";
+		}
+
+		o << ")";
+	}
+
+	o << ")";
+
     return o;
 }

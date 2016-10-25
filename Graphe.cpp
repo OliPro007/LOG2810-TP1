@@ -12,8 +12,8 @@ Graphe::~Graphe() {
 }
 
 void Graphe::afficher() const {
-    for (auto sommet : _sommets) {
-        cout << sommet << endl;
+    for (Sommet* sommet : _sommets) {
+        cout << *sommet << endl;
     }
 }
 

@@ -18,3 +18,8 @@ Sommet* Arc::getFin() const {
 int Arc::getDistance() const {
 	return _distance;
 }
+
+std::ostream& operator<<(std::ostream& o, const Arc& arc) {
+	o << arc._fin->getName();
+	return o;
+}
