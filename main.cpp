@@ -14,7 +14,7 @@ using namespace std;
 
 Graphe* creerGraphe(const string& nomFichier);
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax);
-void lireGraphe(Graphe* graphe); //TODO Complete
+void lireGraphe(Graphe* graphe);
 void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule);
 
 
@@ -25,7 +25,7 @@ int main() {
     //---------------------------------------------------- Variable ----------------------------------------------------
     int choix = 0;
     Graphe* graphe = nullptr;
-    Vehicule* vehicule;
+    Vehicule* vehicule = nullptr;
 
     //------------------------------------------------------ Code ------------------------------------------------------
     while (true) {
@@ -241,7 +241,7 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehi
     //---------------------------------------------------- Variable ----------------------------------------------------
 
     //------------------------------------------------------ Code ------------------------------------------------------
-    Chemin retour;
+    Chemin* retour = nullptr;
     bool aucun = false;
     //cr?er un chemin avec le depart dedans.
     //cr?er la liste des sommets parcourus.
@@ -281,7 +281,7 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehi
             Chemin* newChemin = new Chemin((*cheminActuel));
             newChemin->addSommet(minimal->getFin(), minimal->getDistance());
             chemins.push_back(newChemin);
-            retour = (*newChemin);
+            retour = newChemin;
             //ajouter le sommet d'arriv? dans parcourus.
             parcourus->addSommet(minimal->getFin(), minimal->getDistance());
         }
@@ -291,8 +291,10 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehi
         }
     }
     //TODO ici on est arriv? ? destination. Retourner le dernier chemin trouv?.
-    if(!aucun)cout << retour << endl;
-    vehicule = retour.getVehicule();
+    if(!aucun) cout << *retour << endl;
+    vehicule = new Vehicule(retour->getVehicule());
     for (auto chemin : chemins)
         delete chemin;
+
+	delete parcourus;
 }

@@ -1,49 +1,36 @@
 #include "Chemin.h"
 #include <iterator>
 
-Chemin::Chemin(const std::vector<Sommet*>& sommets, int distance, Vehicule* vehicule) : _sommets(sommets), _distance(distance), _vehicule(vehicule)
-{
-}
+Chemin::Chemin(const std::vector<Sommet*>& sommets, int distance, Vehicule* vehicule) 
+	: _sommets(sommets), _distance(distance), _vehicule(vehicule) {}
 
-Chemin::Chemin()
-{
-
-}
-
-Chemin::Chemin(Chemin & chemin)
-{
+Chemin::Chemin(Chemin & chemin) {
     _sommets = chemin._sommets;
     _distance = chemin._distance;
     _vehicule = new Vehicule(chemin._vehicule);
 }
 
 
-Chemin::~Chemin()
-{
-}
+Chemin::~Chemin() {}
 
-bool Chemin::contains(Sommet * sommet)
-{
+bool Chemin::contains(Sommet * sommet) {
     for (size_t i = 0; i < _sommets.size(); i++) {
         if (_sommets[i]->getName() == sommet->getName()) return true;
     }
     return false;
 }
 
-int Chemin::getDistance() const
-{
+int Chemin::getDistance() const {
     return _distance;
 }
 
 Vehicule* Chemin::getVehicule() { return _vehicule; }
 
-std::vector<Sommet*> Chemin::getSommets() const
-{
+std::vector<Sommet*> Chemin::getSommets() const {
     return _sommets;
 }
 
-void Chemin::addSommet(Sommet * sommet, int distance)
-{
+void Chemin::addSommet(Sommet * sommet, int distance) {
     _sommets.push_back(sommet);
     _distance += distance;
     if (sommet->getType() == _vehicule->getTypeCarburant() || sommet->getType() == 'h') {
@@ -59,7 +46,7 @@ std::ostream& operator<<(std::ostream& o, const Chemin& chemin) {
 		o << (*it)->getName();
 		if (it != chemin._sommets.end() - 1) o << " -> ";
 	}
-    o << std::endl << " Distance : " << chemin.getDistance();
+    o << std::endl << "Distance : " << chemin.getDistance();
     
     return o;
 }

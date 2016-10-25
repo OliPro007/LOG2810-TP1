@@ -9,7 +9,6 @@ class Chemin
 {
 public:
     Chemin(const std::vector<Sommet*>& sommets, int distance, Vehicule* vehicule);
-    Chemin();
     Chemin(Chemin& chemin);
     ~Chemin();
 
