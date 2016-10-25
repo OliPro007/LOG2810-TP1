@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Sommet.h"
-
+class Sommet;
 class Arc {
+
 public:
     Arc();
     Arc(Sommet* fin, int distance);
