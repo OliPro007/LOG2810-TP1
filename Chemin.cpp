@@ -11,7 +11,9 @@ Chemin::Chemin(Chemin & chemin) {
 }
 
 
-Chemin::~Chemin() {}
+Chemin::~Chemin() {
+    delete _vehicule;
+}
 
 bool Chemin::contains(Sommet * sommet) {
     for (size_t i = 0; i < _sommets.size(); i++) {
