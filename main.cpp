@@ -242,7 +242,7 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehi
     bool aucun = false;
     //cr?er un chemin avec le depart dedans.
     //cr?er la liste des sommets parcourus.
-    Chemin* parcourus = new Chemin(vector<Sommet*>(), 0, nullptr);
+    Chemin* parcourus = new Chemin(vector<Sommet*>(), 0, new Vehicule(vehicule));
     parcourus->addSommet(depart, 0);
     //cr?er la liste de tous les chemins emprunt?s et y ajouter un vecteur avec le sommet de d?part
     vector<Chemin*> chemins;

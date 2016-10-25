@@ -47,7 +47,7 @@ void Chemin::addSommet(Sommet * sommet, int distance)
 {
     _sommets.push_back(sommet);
     _distance += distance;
-    if (sommet->getType() == _vehicule->getTypeCarburant()) {
+    if (sommet->getType() == _vehicule->getTypeCarburant() || sommet->getType() == 'h') {
         _vehicule->setAutonomieActuelle(_vehicule->getAutonomieMax());
     } else {
         _vehicule->setAutonomieActuelle(_vehicule->getAutonomieActuelle() - distance);
