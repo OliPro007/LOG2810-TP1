@@ -26,6 +26,12 @@ void Sommet::addArc(Arc* arc)
     _arcs.push_back(arc);
 }
 
+std::vector<Arc*> Sommet::getArc() { return _arcs; }
+
+void Sommet::addArc(Arc *arc) {
+    _arcs.push_back(arc);
+}
+
 ostream& operator<<(ostream& o, const Sommet& sommet) {
     o << sommet._nom << ",";
     switch(sommet._valeur) {

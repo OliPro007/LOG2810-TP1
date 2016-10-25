@@ -31,13 +31,13 @@ int main() {
     //------------------------------------------------------ Code ------------------------------------------------------
     while (true) {
         cout << "====================================================" << endl
-            << "=== Veuillez choisir une option:" << endl
-            << "===     1: Entrer les caracteristique du vehicule" << endl
-            << "===     2: Mettre a jour la carte" << endl
-            << "===     3: Trouver un itineraire" << endl
-            << "===     4: Quitter" << endl
-            << "====================================================" << endl
-            << "Votre choix: ";
+             << "=== Veuillez choisir une option:" << endl
+             << "===     1: Entrer les caracteristique du vehicule" << endl
+             << "===     2: Mettre a jour la carte" << endl
+             << "===     3: Trouver un itineraire" << endl
+             << "===     4: Quitter" << endl
+             << "====================================================" << endl
+             << "Votre choix: ";
 
         cin >> choix;
 
@@ -45,101 +45,98 @@ int main() {
             break;
 
         switch (choix) {
-        case 1:
-        {
-            string typeVehicule;
-            TypeCarburant type;
-            int autonomieMax, autonomieActuelle;
+            case 1:
+            {
+                string typeVehicule;
+                TypeCarburant type;
+                int autonomieMax, autonomieActuelle;
 
-            // Determine le type de vehicule
-            cout << "Entrez les caracteristique du vehicule selon la methode suivante:" << endl
-                << "Type de vehicule (choix: (e)ssence; e(l)ectrique; (h)ybrid): ";
+                // Determine le type de vehicule
+                cout << "Entrez les caracteristique du vehicule selon la methode suivante:" << endl
+                     << "Type de vehicule (choix: (e)ssence; e(l)ectrique; (h)ybrid): ";
 
-            cin >> typeVehicule;
+                cin >> typeVehicule;
 
-            if (typeVehicule == "e")
-                type = TypeCarburant::essence;
-            else if (typeVehicule == "l")
-                type = TypeCarburant::electrique;
-            else if (typeVehicule == "h")
-                type = TypeCarburant::hybrid;
-            else {
-                cerr << "ERREUR: Type de vehicule invalide" << endl;
-                break;
-            }
-
-            // Determine l'autonomie maximale et actuelle du vehicule
-            cout << "Autonomie maximale du vehicule: ";
-            cin >> autonomieMax;
-
-            cout << "Autonomie actuelle du vehicule: ";
-            cin >> autonomieActuelle;
-
-            if (autonomieActuelle > autonomieMax) {
-                cerr << "ERREUR: L'autonomie actuelle ne peut pas etre superieure a l'autonomie maximale" << endl;
-                break;
-            }
-
-            // Cree le vehicule
-            vehicule = Vehicule(type, autonomieMax, autonomieActuelle);
-        }
-        break;
-
-        case 2:
-        {
-            string nomFichier;
-            cout << "Entrez le nom du fichier contenant les informations sur la carte: ";
-            cin >> nomFichier;
-
-            // Cree et affiche le graphe
-            graphe = creerGraphe(nomFichier);
-            lireGraphe();
-        }
-        break;
-
-        case 3:
-        {
-            string depart, arrive;
-            if (vehicule.getTypeCarburant() == TypeCarburant::rien) {
-                cerr << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
-                    << endl;
-                break;
-            }
-            else if (!graphe) {
-                cerr << "ERREUR: Une carte est necessaire a la recherche d'un itineraire" << endl;
-                break;
-            }
-
-            cout << "Entrez la station de depart: ";
-            cin >> depart;
-
-            cout << "Entrez la station d'arrive: ";
-            cin >> arrive;
-
-            Sommet* a = nullptr; Sommet* z = nullptr;
-            for (auto sommet : graphe->getSommet()) {
-                if (sommet->getName() == depart.at(0)) {
-                    a = sommet;
+                if (typeVehicule == "e")
+                    type = TypeCarburant::essence;
+                else if (typeVehicule == "l")
+                    type = TypeCarburant::electrique;
+                else if (typeVehicule == "h")
+                    type = TypeCarburant::hybrid;
+                else {
+                    cerr << "ERREUR: Type de vehicule invalide" << endl;
+                    break;
                 }
-                else if (sommet->getName() == arrive.at(0)) {
-                    z = sommet;
+
+                // Determine l'autonomie maximale et actuelle du vehicule
+                cout << "Autonomie maximale du vehicule: ";
+                cin >> autonomieMax;
+
+                cout << "Autonomie actuelle du vehicule: ";
+                cin >> autonomieActuelle;
+
+                if (autonomieActuelle > autonomieMax) {
+                    cerr << "ERREUR: L'autonomie actuelle ne peut pas etre superieure a l'autonomie maximale" << endl;
+                    break;
+                }
+
+                // Cree le vehicule
+                vehicule = Vehicule(type, autonomieMax, autonomieActuelle);
+            }
+                break;
+
+            case 2: {
+                string nomFichier;
+                cout << "Entrez le nom du fichier contenant les informations sur la carte: ";
+                cin >> nomFichier;
+
+                // Cree et affiche le graphe
+                graphe = creerGraphe(nomFichier);
+                lireGraphe();
+            }
+                break;
+
+            case 3: {
+                string depart, arrive;
+                if (vehicule.getTypeCarburant() == TypeCarburant::rien) {
+                    cerr << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
+                         << endl;
+                    break;
+                } else if (!graphe) {
+                    cerr << "ERREUR: Une carte est necessaire a la recherche d'un itineraire" << endl;
+                    break;
+                }
+
+                cout << "Entrez la station de depart: ";
+                cin >> depart;
+
+                cout << "Entrez la station d'arrive: ";
+                cin >> arrive;
+
+                Sommet* a = nullptr; Sommet* z = nullptr;
+                for (auto sommet : graphe->getSommet()) {
+                    if (sommet->getName() == depart.at(0)) {
+                        a = sommet;
+                    }
+                    else if (sommet->getName() == arrive.at(0)) {
+                        z = sommet;
+                    }
+                }
+                if (a != nullptr && z != nullptr) {
+                    plusCourtChemin(graphe, a, z);
+
                 }
             }
-            if (a != nullptr && z != nullptr) {
-                plusCourtChemin(graphe, a, z);
+                break;
 
-            }
-        }
-        break;
-
-        default:
-            cerr << "ERREUR: Choix invalide" << endl;
-            break;
+            default:
+                cerr << "ERREUR: Choix invalide" << endl;
+                break;
         }
     }
-
     delete graphe;
     return 0;
+
 } // main
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -221,47 +218,50 @@ Graphe* creerGraphe(const string& nomFichier) {
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax) {
     //---------------------------------------------------- Variable ----------------------------------------------------
     Graphe* sousGraphe = nullptr;
+    vector<Sommet*>  sommets;
 
     //------------------------------------------------------ Code ------------------------------------------------------
     /*for (auto sommet : graphe->getSommet()) {
         for (auto arc : sommet->getArc()) {
-
+            if (arc->getDistance() > autonomieMax) {
+                // TODO faire copie du sommet et retirer arc trop long
+            }
         }
     }*/
 
     return sousGraphe;
 } // extractionGraphe
 
-  //----------------------------------------------------------------------------------------------------------------------
-  //------------------------------------------------------------------------------------------------------ plusCourtChemin
-  //----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------ plusCourtChemin
+//----------------------------------------------------------------------------------------------------------------------
 void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin) {
     //---------------------------------------------------- Variable ----------------------------------------------------
 
     //------------------------------------------------------ Code ------------------------------------------------------
     Chemin retour;
     bool aucun = false;
-    //créer un chemin avec le depart dedans.
-    //créer la liste des sommets parcourus.
+    //cr?er un chemin avec le depart dedans.
+    //cr?er la liste des sommets parcourus.
     Chemin* parcourus = new Chemin(vector<Sommet*>(), 0);
     parcourus->addSommet(depart, 0);
-    //créer la liste de tous les chemins empruntés et y ajouter un vecteur avec le sommet de départ
+    //cr?er la liste de tous les chemins emprunt?s et y ajouter un vecteur avec le sommet de d?part
     vector<Chemin*> chemins;
     Chemin* debut = new Chemin(vector<Sommet*>(), 0);;
     debut->addSommet(depart, 0);
     chemins.push_back(debut);
-    //commencer la recherche jusqu'à trouver la destination
+    //commencer la recherche jusqu'? trouver la destination
     while (!parcourus->contains(fin) && !aucun) {
         //faire deux pointeurs, un qui pointe vers l'arc avec la distance
         //minimale et l'autre vers le chemin parcouru pour l'atteindre
         Chemin* cheminActuel = nullptr;
         Arc* minimal = nullptr;
-        //trouver l'arc min à qui le sommet d'arrivé n'est pas dans le chemin parcourus.
-        for (auto chemin : chemins) {//à travers tous les chemins parcourus jusqu'ici
+        //trouver l'arc min ? qui le sommet d'arriv? n'est pas dans le chemin parcourus.
+        for (auto chemin : chemins) {//? travers tous les chemins parcourus jusqu'ici
             Sommet* sommet = chemin->getSommets().at(chemin->getSommets().size() - 1); //prendre le bout d'un chemin
             for (auto arc : sommet->getArcs()) { //trouver le minimum des arcs qui partent de lui
                 if (minimal == nullptr) {
-                    //initialiser minimal a un arc par le quel on n'est jamais passé
+                    //initialiser minimal a un arc par le quel on n'est jamais pass?
                     if (!parcourus->contains(arc->getFin())) {
                         cheminActuel = chemin;
                         minimal = arc;
@@ -279,15 +279,15 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin) {
             newChemin->addSommet(minimal->getFin(), minimal->getDistance());
             chemins.push_back(newChemin);
             retour = (*newChemin);
-            //ajouter le sommet d'arrivé dans parcourus.
+            //ajouter le sommet d'arriv? dans parcourus.
             parcourus->addSommet(minimal->getFin(), minimal->getDistance());
         }
         else {
-            cout << "Aucun chemin trouvé" << endl;
+            cout << "Aucun chemin trouv?" << endl;
             aucun = true;
         }
     }
-    //TODO ici on est arrivé à destination. Retourner le dernier chemin trouvé.
+    //TODO ici on est arriv? ? destination. Retourner le dernier chemin trouv?.
     if(!aucun)cout << retour << endl;
     for (auto chemin : chemins)
         delete chemin;
