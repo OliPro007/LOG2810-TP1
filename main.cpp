@@ -217,19 +217,36 @@ Graphe* creerGraphe(const string& nomFichier) {
 //----------------------------------------------------------------------------------------------------------------------
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax) {
     //---------------------------------------------------- Variable ----------------------------------------------------
-    Graphe* sousGraphe = nullptr;
     vector<Sommet*>  sommets;
 
     //------------------------------------------------------ Code ------------------------------------------------------
-    /*for (auto sommet : graphe->getSommet()) {
-        for (auto arc : sommet->getArc()) {
-            if (arc->getDistance() > autonomieMax) {
-                // TODO faire copie du sommet et retirer arc trop long
+    // Copie tous les sommets du graphe original
+    for (auto sommet : graphe->getSommet()) {
+        sommets.push_back(new Sommet(sommet));
+    }
+
+    for (auto sommet : graphe->getSommet()) {
+        for (auto arc : sommet->getArcs()) {
+            if (arc->getDistance() < autonomieMax) {
+
+                // Trouve nouveau sommet correspondant
+                for (auto debut : sommets) {
+                    if (debut->getName() == sommet->getName()) {
+
+                        // Trouve nouveaux sommet correspondant a la fin de l'arc
+                        for (auto fin : sommets) {
+                            if (fin->getName() == arc->getFin()->getName()) {
+                                Arc *newArc = new Arc(fin, arc->getDistance());
+                                sommet->addArc(newArc);
+                            }
+                        }
+                    }
+                }
             }
         }
-    }*/
+    }
 
-    return sousGraphe;
+    return new Graphe(sommets);
 } // extractionGraphe
 
 //----------------------------------------------------------------------------------------------------------------------

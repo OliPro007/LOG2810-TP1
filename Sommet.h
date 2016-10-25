@@ -12,6 +12,7 @@ class Arc;
 class Sommet {
 public:
 	Sommet(char nom, TypeCarburant valeur);
+    Sommet(Sommet* sommet);
 	~Sommet();
 
     char getName() const;

@@ -5,6 +5,11 @@ using namespace std;
 Sommet::Sommet(char nom, TypeCarburant valeur)
     : _nom(nom), _valeur(valeur) {}
 
+Sommet::Sommet(Sommet *sommet) {
+    _nom = sommet->_nom;
+    _valeur = sommet->_valeur;
+}
+
 Sommet::~Sommet() {
     for (auto arc : _arcs) {
         delete arc;
