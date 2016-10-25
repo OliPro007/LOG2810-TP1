@@ -59,7 +59,7 @@ std::ostream& operator<<(std::ostream& o, const Chemin& chemin) {
 		o << (*it)->getName();
 		if (it != chemin._sommets.end() - 1) o << " -> ";
 	}
-    o << std::endl << " Distance : " << chemin.getDistance();
+    o << std::endl << "Distance : " << chemin.getDistance();
     
     return o;
 }
