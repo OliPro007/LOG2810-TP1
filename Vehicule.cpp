@@ -6,6 +6,12 @@ Vehicule::Vehicule()
 Vehicule::Vehicule(char type, int autonomieMax, int autonomieActuelle)
     : _type(type), _autonomieMax(autonomieMax), _autonomieActuelle(autonomieActuelle) {}
 
+Vehicule::Vehicule(Vehicule* vehicule) {
+    _type = vehicule->_type;
+    _autonomieMax = vehicule->_autonomieMax;
+    _autonomieActuelle = vehicule->_autonomieActuelle;
+}
+
 Vehicule::~Vehicule() {}
 
 char Vehicule::getTypeCarburant() const {

@@ -4,6 +4,7 @@ class Vehicule {
 public:
     Vehicule();
     Vehicule(char type, int autonomieMax, int autonomieActuelle);
+    Vehicule(Vehicule* vehicule);
     ~Vehicule();
 
     char  getTypeCarburant() const;

@@ -21,6 +21,8 @@ char Sommet::getName() const
     return _nom;
 }
 
+char Sommet::getType() const { return _valeur; }
+
 std::vector<Arc*> Sommet::getArcs()
 {
     return _arcs;

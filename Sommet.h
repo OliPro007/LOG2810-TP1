@@ -15,6 +15,7 @@ public:
 	~Sommet();
 
     char getName() const;
+    char getType() const;
     std::vector<Arc*> getArcs();
     void addArc(Arc* arc);
     friend std::ostream& operator<<(std::ostream& o, const Sommet& sommet);

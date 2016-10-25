@@ -14,7 +14,7 @@ using namespace std;
 
 Graphe* creerGraphe(const string& nomFichier);
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax);
-void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin);
+void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule);
 void lireGraphe() { return; } //TODO Complete
 
 
@@ -25,7 +25,7 @@ int main() {
     //---------------------------------------------------- Variable ----------------------------------------------------
     int choix = 0;
     Graphe* graphe = nullptr;
-    Vehicule vehicule;
+    Vehicule* vehicule;
 
     //------------------------------------------------------ Code ------------------------------------------------------
     while (true) {
@@ -73,7 +73,7 @@ int main() {
                 }
 
                 // Cree le vehicule
-                vehicule = Vehicule(type, autonomieMax, autonomieActuelle);
+                vehicule = new Vehicule(type, autonomieMax, autonomieActuelle);
             }
                 break;
 
@@ -90,7 +90,7 @@ int main() {
 
             case 3: {
                 string depart, arrive;
-                if (vehicule.getTypeCarburant() == 'r') {
+                if (vehicule->getTypeCarburant() == 'r') {
                     cerr << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
                          << endl;
                     break;
@@ -115,7 +115,7 @@ int main() {
                     }
                 }
                 if (a != nullptr && z != nullptr) {
-                    plusCourtChemin(graphe, a, z);
+                    plusCourtChemin(graphe, a, z, vehicule);
 
                 }
             }
@@ -234,7 +234,7 @@ Graphe* extractionGraphe(Graphe* graphe, int autonomieMax) {
 //----------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------ plusCourtChemin
 //----------------------------------------------------------------------------------------------------------------------
-void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin) {
+void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule) {
     //---------------------------------------------------- Variable ----------------------------------------------------
 
     //------------------------------------------------------ Code ------------------------------------------------------
@@ -242,11 +242,11 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin) {
     bool aucun = false;
     //cr?er un chemin avec le depart dedans.
     //cr?er la liste des sommets parcourus.
-    Chemin* parcourus = new Chemin(vector<Sommet*>(), 0);
+    Chemin* parcourus = new Chemin(vector<Sommet*>(), 0, nullptr);
     parcourus->addSommet(depart, 0);
     //cr?er la liste de tous les chemins emprunt?s et y ajouter un vecteur avec le sommet de d?part
     vector<Chemin*> chemins;
-    Chemin* debut = new Chemin(vector<Sommet*>(), 0);;
+    Chemin* debut = new Chemin(vector<Sommet*>(), 0, new Vehicule(vehicule));
     debut->addSommet(depart, 0);
     chemins.push_back(debut);
     //commencer la recherche jusqu'? trouver la destination
@@ -259,16 +259,17 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin) {
         for (auto chemin : chemins) {//? travers tous les chemins parcourus jusqu'ici
             Sommet* sommet = chemin->getSommets().at(chemin->getSommets().size() - 1); //prendre le bout d'un chemin
             for (auto arc : sommet->getArcs()) { //trouver le minimum des arcs qui partent de lui
-                if (minimal == nullptr) {
-                    //initialiser minimal a un arc par le quel on n'est jamais pass?
-                    if (!parcourus->contains(arc->getFin())) {
+                if (!parcourus->contains(arc->getFin()) && arc->getDistance() < chemin->getVehicule()->getAutonomieActuelle()) {
+
+                    if (minimal == nullptr) {
+                        //initialiser minimal a un arc par le quel on n'est jamais pass?
+                        cheminActuel = chemin;
+                        minimal = arc;
+                    } else if (arc->getDistance() + chemin->getDistance() <
+                               minimal->getDistance() + cheminActuel->getDistance()) {
                         cheminActuel = chemin;
                         minimal = arc;
                     }
-                }
-                else if (!parcourus->contains(arc->getFin()) && arc->getDistance() + chemin->getDistance() < minimal->getDistance() + cheminActuel->getDistance()) {
-                    cheminActuel = chemin;
-                    minimal = arc;
                 }
             }
         }
@@ -288,6 +289,7 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin) {
     }
     //TODO ici on est arriv? ? destination. Retourner le dernier chemin trouv?.
     if(!aucun)cout << retour << endl;
+    vehicule = retour.getVehicule();
     for (auto chemin : chemins)
         delete chemin;
 }
