@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Graphe.h"
-#include "TypeCarburant.h"
 #include "Vehicule.h"
 #include "Chemin.h"
 #include "Arc.h"
@@ -47,23 +46,16 @@ int main() {
         switch (choix) {
             case 1:
             {
-                string typeVehicule;
-                TypeCarburant type;
+                char type;
                 int autonomieMax, autonomieActuelle;
 
                 // Determine le type de vehicule
                 cout << "Entrez les caracteristique du vehicule selon la methode suivante:" << endl
                      << "Type de vehicule (choix: (e)ssence; e(l)ectrique; (h)ybrid): ";
 
-                cin >> typeVehicule;
+                cin >> type;
 
-                if (typeVehicule == "e")
-                    type = TypeCarburant::essence;
-                else if (typeVehicule == "l")
-                    type = TypeCarburant::electrique;
-                else if (typeVehicule == "h")
-                    type = TypeCarburant::hybrid;
-                else {
+                if (type != 'e' && type != 'l' && type != 'h') {
                     cerr << "ERREUR: Type de vehicule invalide" << endl;
                     break;
                 }
@@ -98,7 +90,7 @@ int main() {
 
             case 3: {
                 string depart, arrive;
-                if (vehicule.getTypeCarburant() == TypeCarburant::rien) {
+                if (vehicule.getTypeCarburant() == 'r') {
                     cerr << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
                          << endl;
                     break;
@@ -167,17 +159,7 @@ Graphe* creerGraphe(const string& nomFichier) {
         if (nomSommet != "" && valeurSommet != "") {
             cout << "Nom du sommet: " << nomSommet << " Valeur du sommet: " << valeurSommet << endl;
 
-            TypeCarburant valeur;
-            if (valeurSommet == "rien")
-                valeur = TypeCarburant::rien;
-            else if (valeurSommet == "essence")
-                valeur = TypeCarburant::essence;
-            else if (valeurSommet == "electrique")
-                valeur = TypeCarburant::electrique;
-            else if (valeurSommet == "hybrid")
-                valeur = TypeCarburant::hybrid;
-
-            sommets.push_back(new Sommet(nomSommet.at(0), valeur));
+            sommets.push_back(new Sommet(nomSommet.at(0), valeurSommet.at(0)));
         }
     }
 

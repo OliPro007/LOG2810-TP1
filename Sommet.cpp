@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Sommet::Sommet(char nom, TypeCarburant valeur)
+Sommet::Sommet(char nom, char valeur)
     : _nom(nom), _valeur(valeur) {}
 
 Sommet::Sommet(Sommet *sommet) {
@@ -34,16 +34,16 @@ void Sommet::addArc(Arc* arc)
 ostream& operator<<(ostream& o, const Sommet& sommet) {
     o << sommet._nom << ",";
     switch(sommet._valeur) {
-        case TypeCarburant::rien:
+        case 'r':
             o << "rien";
             break;
-        case TypeCarburant::electrique:
+        case 'l':
             o << "electrique";
             break;
-        case TypeCarburant::essence:
+        case 'e':
             o << "essence";
             break;
-        case TypeCarburant::hybrid:
+        case 'h':
             o << "hybrid";
     }
     return o;

@@ -1,15 +1,14 @@
-#include "TypeCarburant.h"
 #include "Vehicule.h"
 
 Vehicule::Vehicule()
-    : _type(TypeCarburant::rien), _autonomieMax(0), _autonomieActuelle(0) {}
+    : _type('r'), _autonomieMax(0), _autonomieActuelle(0) {}
 
-Vehicule::Vehicule(TypeCarburant type, int autonomieMax, int autonomieActuelle)
+Vehicule::Vehicule(char type, int autonomieMax, int autonomieActuelle)
     : _type(type), _autonomieMax(autonomieMax), _autonomieActuelle(autonomieActuelle) {}
 
 Vehicule::~Vehicule() {}
 
-TypeCarburant  Vehicule::getTypeCarburant() const {
+char Vehicule::getTypeCarburant() const {
     return  _type;
 }
 
