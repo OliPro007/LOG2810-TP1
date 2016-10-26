@@ -11,12 +11,10 @@
 
 using namespace std;
 
-
 Graphe* creerGraphe(const string& nomFichier);
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax);
 void lireGraphe(Graphe* graphe);
 void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule);
-
 
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------- main
@@ -77,7 +75,8 @@ int main() {
             }
                 break;
 
-            case 2: {
+            case 2: 
+			{
                 string nomFichier;
                 cout << "Entrez le nom du fichier contenant les informations sur la carte: ";
                 cin >> nomFichier;
@@ -88,7 +87,8 @@ int main() {
             }
                 break;
 
-            case 3: {
+            case 3:
+			{
                 string depart, arrive;
                 if (vehicule->getTypeCarburant() == 'r') {
                     cerr << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
@@ -115,7 +115,7 @@ int main() {
                     }
                 }
                 if (a != nullptr && z != nullptr) {
-                    plusCourtChemin(graphe, a, z, vehicule);
+                    plusCourtChemin(extractionGraphe(graphe, vehicule->getAutonomieMax()), a, z, vehicule);
 
                 }
             }
@@ -126,7 +126,10 @@ int main() {
                 break;
         }
     }
+
+	delete vehicule;
     delete graphe;
+
     return 0;
 
 } // main
@@ -238,34 +241,31 @@ Graphe* extractionGraphe(Graphe* graphe, int autonomieMax) {
 //------------------------------------------------------------------------------------------------------ plusCourtChemin
 //----------------------------------------------------------------------------------------------------------------------
 void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule) {
-    //---------------------------------------------------- Variable ----------------------------------------------------
-
-    //------------------------------------------------------ Code ------------------------------------------------------
     Chemin* retour = nullptr;
-    bool aucun = false;
-    //cr?er un chemin avec le depart dedans.
-    //cr?er la liste des sommets parcourus.
-    Chemin* parcourus = new Chemin(vector<Sommet*>(), 0, new Vehicule(vehicule));
+    bool aucunChemin = false;
+
+    //Creer un chemin contenant le point de depart.
+    Chemin* parcourus = new Chemin(new Vehicule(vehicule));
     parcourus->addSommet(depart, 0);
-    //cr?er la liste de tous les chemins emprunt?s et y ajouter un vecteur avec le sommet de d?part
-    vector<Chemin*> chemins;
-    Chemin* debut = new Chemin(vector<Sommet*>(), 0, new Vehicule(vehicule));
-    debut->addSommet(depart, 0);
-    chemins.push_back(debut);
-    //commencer la recherche jusqu'? trouver la destination
-    while (!parcourus->contains(fin) && !aucun) {
-        //faire deux pointeurs, un qui pointe vers l'arc avec la distance
-        //minimale et l'autre vers le chemin parcouru pour l'atteindre
+
+    //Creer la liste de tous les chemins empruntes et y ajouter une copie du chemin initial (pour historique).
+	vector<Chemin*> chemins;
+    chemins.push_back(new Chemin(*parcourus));
+
+    //Commencer la recherche jusqu'a trouver la destination
+    while (!parcourus->contains(fin) && !aucunChemin) {
+        //Un pointeur vers l'arc avec la distance minimale et un autre vers le chemin parcouru pour l'atteindre.
         Chemin* cheminActuel = nullptr;
         Arc* minimal = nullptr;
-        //trouver l'arc min ? qui le sommet d'arriv? n'est pas dans le chemin parcourus.
-        for (auto chemin : chemins) {//? travers tous les chemins parcourus jusqu'ici
-            Sommet* sommet = chemin->getSommets().at(chemin->getSommets().size() - 1); //prendre le bout d'un chemin
-            for (auto arc : sommet->getArcs()) { //trouver le minimum des arcs qui partent de lui
-                if (!parcourus->contains(arc->getFin()) && arc->getDistance() < chemin->getVehicule()->getAutonomieActuelle()) {
 
+        //Trouver l'arc min a qui le sommet d'arrive n'est pas dans le chemin parcourus.
+        for (auto chemin : chemins) { //Traverser tous les chemins parcourus jusqu'ici
+            Sommet* sommet = chemin->getSommets().at(chemin->getSommets().size() - 1); //Prendre le dernier sommet du chemin
+
+            for (auto arc : sommet->getArcs()) { //Trouver le minimum des arcs qui partent de sommet
+                if (!parcourus->contains(arc->getFin()) && arc->getDistance() < chemin->getVehicule()->getAutonomieActuelle()) {
                     if (minimal == nullptr) {
-                        //initialiser minimal a un arc par le quel on n'est jamais pass?
+                        //initialiser minimal a un arc par le quel on n'est jamais passe
                         cheminActuel = chemin;
                         minimal = arc;
                     } else if (arc->getDistance() + chemin->getDistance() <
@@ -276,24 +276,33 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehi
                 }
             }
         }
-        //ajouter le nouveau chemin dans le vecteur chemins.
+
+        //Ajouter le nouveau chemin dans le vecteur chemins.
         if (minimal != nullptr) {
             Chemin* newChemin = new Chemin((*cheminActuel));
             newChemin->addSommet(minimal->getFin(), minimal->getDistance());
+
             chemins.push_back(newChemin);
             retour = newChemin;
-            //ajouter le sommet d'arriv? dans parcourus.
+
+            //Ajouter le sommet d'arrive dans parcourus.
             parcourus->addSommet(minimal->getFin(), minimal->getDistance());
-        }
-        else {
-            cout << "Aucun chemin trouv?" << endl;
-            aucun = true;
+        } else {
+            cout << "Aucun chemin trouve" << endl;
+            aucunChemin = true;
         }
     }
-    //TODO ici on est arriv? ? destination. Retourner le dernier chemin trouv?.
-    if(!aucun) cout << *retour << endl;
-    vehicule = new Vehicule(retour->getVehicule());
-    for (auto chemin : chemins)
+
+    //Ici on est arrive a destination. Retourner le dernier chemin trouve s'il existe.
+	if(!aucunChemin && retour != nullptr) {
+		cout << *retour << endl;
+
+		//Recuperer l'etat du vehicule a partir du bon chemin
+		vehicule = new Vehicule(retour->getVehicule());
+	}
+
+	//Nettoyage
+    for (Chemin* chemin : chemins)
         delete chemin;
 
 	delete parcourus;

@@ -1,21 +1,20 @@
 #include "Chemin.h"
 #include <iterator>
 
-Chemin::Chemin(const std::vector<Sommet*>& sommets, int distance, Vehicule* vehicule) 
-	: _sommets(sommets), _distance(distance), _vehicule(vehicule) {}
+Chemin::Chemin(Vehicule* vehicule) 
+	: _sommets(std::vector<Sommet*>()), _distance(0), _vehicule(vehicule) {}
 
-Chemin::Chemin(Chemin & chemin) {
+Chemin::Chemin(Chemin& chemin) {
     _sommets = chemin._sommets;
     _distance = chemin._distance;
     _vehicule = new Vehicule(chemin._vehicule);
 }
 
-
 Chemin::~Chemin() {
     delete _vehicule;
 }
 
-bool Chemin::contains(Sommet * sommet) {
+bool Chemin::contains(Sommet* sommet) const {
     for (size_t i = 0; i < _sommets.size(); i++) {
         if (_sommets[i]->getName() == sommet->getName()) return true;
     }
@@ -26,7 +25,7 @@ int Chemin::getDistance() const {
     return _distance;
 }
 
-Vehicule* Chemin::getVehicule() { return _vehicule; }
+Vehicule* Chemin::getVehicule() const { return _vehicule; }
 
 std::vector<Sommet*> Chemin::getSommets() const {
     return _sommets;
