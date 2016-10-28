@@ -27,4 +27,3 @@ private:
     int _distance;
     Vehicule* _vehicule;
 };
-

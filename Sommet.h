@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Arc.h"
-#include "Arc.h"
 #include <vector>
 
 class Arc;
