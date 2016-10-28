@@ -1,7 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+/// @file		Sommet.cpp
+/// @author		Olivier St-Jean, Massinissa Achour, Jean-François Blain
+/// @version	28 octobre 2016
+/// @since		18 octobre 2016
+////////////////////////////////////////////////////////////////////////////////
+
 #include "Sommet.h"
 #include <iterator>
-
-using namespace std;
 
 Sommet::Sommet(char nom, char valeur)
     : _nom(nom), _valeur(valeur) {}
@@ -31,7 +36,7 @@ void Sommet::addArc(Arc* arc) {
     _arcs.push_back(arc);
 }
 
-ostream& operator<<(ostream& o, const Sommet& sommet) {
+std::ostream& operator<<(std::ostream& o, const Sommet& sommet) {
     o << "(" << sommet._nom << ",";
     switch(sommet._valeur) {
         case 'r':

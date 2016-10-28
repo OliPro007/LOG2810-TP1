@@ -1,3 +1,10 @@
+////////////////////////////////////////////////////////////////////////////////
+/// @file		main.cpp
+/// @author		Olivier St-Jean, Massinissa Achour, Jean-François Blain
+/// @version	28 octobre 2016
+/// @since		18 octobre 2016
+////////////////////////////////////////////////////////////////////////////////
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -12,13 +19,14 @@
 using namespace std;
 
 Graphe* creerGraphe(const string& nomFichier);
-Graphe* extractionGraphe(Graphe* graphe, int autonomieMax);
 void lireGraphe(Graphe* graphe);
+Graphe* extractionGraphe(Graphe* graphe, int autonomieMax);
 int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule);
 
-//----------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------- main
-//----------------------------------------------------------------------------------------------------------------------
+/**
+Point d'entrée de l'application.
+@return Status de l'exécution.
+*/
 int main() {
     int choix = 0;
     Graphe* graphe = nullptr;
@@ -132,9 +140,10 @@ int main() {
 
 } // main
 
-//----------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------- creerGraphe
-//----------------------------------------------------------------------------------------------------------------------
+/**
+Crée un graphe à partir d'un fichier texte.
+@param nomFichier Le nom du fichier à ouvrir.
+*/
 Graphe* creerGraphe(const string& nomFichier) {
     ifstream fichier(nomFichier);
     stringstream parser;
@@ -190,25 +199,25 @@ Graphe* creerGraphe(const string& nomFichier) {
     return new Graphe(sommets);
 } // creerGraphe
 
-//----------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------- lireGraphe
-//----------------------------------------------------------------------------------------------------------------------
+/**
+Affiche la liste des sommets et leurs voisins immédiats.
+@param graphe Le graphe à lire.
+*/
 void lireGraphe(Graphe* graphe) {
     cout << "Graphe actuel: " << endl;
     graphe->afficher();
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------- extractionGraphe
-//----------------------------------------------------------------------------------------------------------------------
+/**
+Crée un sous-graphe en retirant tous les arcs dépassant l'autonomie maximale du véhicule.
+@param graphe Le graphe initial.
+@param autonomieMax L'autonomie maximale du véhicule.
+@return Un sous-graphe n'incluant pas les arcs impraticables.
+*/
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax) {
     vector<Sommet*>  sommets;
 
-    // Copie tous les sommets du graphe original
-    for (auto sommet : graphe->getSommet()) {
-        sommets.push_back(new Sommet(sommet));
-    }
-
+    // Copie tous les somm+
     for (auto sommet : graphe->getSommet()) {
         for (auto arc : sommet->getArcs()) {
             if (arc->getDistance() < autonomieMax) {
@@ -233,9 +242,15 @@ Graphe* extractionGraphe(Graphe* graphe, int autonomieMax) {
     return new Graphe(sommets);
 } // extractionGraphe
 
-//----------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------ plusCourtChemin
-//----------------------------------------------------------------------------------------------------------------------
+/**
+Détermine le plus court chemin d'un sommet à un autre dans un graphe.
+Utilise l'algorithme de Dijsktra pour trouver le meilleur chemin selon les caractéristiques du véhicule et des sommets.
+@param graphe Le graphe à utiliser.
+@param depart Le sommet de départ.
+@param fin Le sommet d'arrivé.
+@param vehicule Le véhicule utilisé pour parcourir le graphe.
+@return L'autonomie restante du véhicule après le déplacement.
+*/
 int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule) {
     Chemin* retour = nullptr;
     bool aucunChemin = false;
