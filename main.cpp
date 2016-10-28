@@ -74,7 +74,7 @@ int main() {
                 break;
 
             case 2: 
-			{
+            {
                 string nomFichier;
                 cout << "Entrez le nom du fichier contenant les informations sur la carte: ";
                 cin >> nomFichier;
@@ -86,7 +86,7 @@ int main() {
                 break;
 
             case 3:
-			{
+            {
                 string depart, arrive;
                 if (!vehicule || vehicule->getTypeCarburant() == 'r') {
                     cerr << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
@@ -125,7 +125,7 @@ int main() {
         }
     }
 
-	delete vehicule;
+    delete vehicule;
     delete graphe;
 
     return 0;
@@ -194,8 +194,8 @@ Graphe* creerGraphe(const string& nomFichier) {
 //----------------------------------------------------------------------------------------------------------- lireGraphe
 //----------------------------------------------------------------------------------------------------------------------
 void lireGraphe(Graphe* graphe) {
-	cout << "Graphe actuel: " << endl;
-	graphe->afficher();
+    cout << "Graphe actuel: " << endl;
+    graphe->afficher();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -246,7 +246,7 @@ int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehic
     parcourus->addSommet(depart, 0);
 
     //Creer la liste de tous les chemins empruntes et y ajouter une copie du chemin initial (pour historique).
-	vector<Chemin*> chemins;
+    vector<Chemin*> chemins;
     chemins.push_back(new Chemin(*parcourus));
 
     //Commencer la recherche jusqu'a trouver la destination
@@ -291,18 +291,18 @@ int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehic
     }
 
     //Ici on est arrive a destination. Retourner le dernier chemin trouve s'il existe.
-	if(!aucunChemin && retour != nullptr) {
-		cout << *retour << endl;
+    if(!aucunChemin && retour != nullptr) {
+        cout << *retour << endl;
 
-		//Recuperer l'etat du vehicule a partir du bon chemin
-		autonomieRestante = retour->getVehicule()->getAutonomieActuelle();
-	}
+        //Recuperer l'etat du vehicule a partir du bon chemin
+        autonomieRestante = retour->getVehicule()->getAutonomieActuelle();
+    }
 
-	//Nettoyage
+    //Nettoyage
     for (Chemin* chemin : chemins)
         delete chemin;
 
-	delete parcourus;
+    delete parcourus;
 
     return autonomieRestante;
 }

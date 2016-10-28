@@ -47,18 +47,18 @@ ostream& operator<<(ostream& o, const Sommet& sommet) {
             o << "hybrid";
     }
 
-	if (sommet._arcs.size() > 0) {
-		o << ", (";
+    if (sommet._arcs.size() > 0) {
+        o << ", (";
 
-		for (auto it = sommet._arcs.begin(); it != sommet._arcs.end(); it++) {
-			o << **it;
-			if (it != sommet._arcs.end() - 1) o << ",";
-		}
+        for (auto it = sommet._arcs.begin(); it != sommet._arcs.end(); it++) {
+            o << **it;
+            if (it != sommet._arcs.end() - 1) o << ",";
+        }
 
-		o << ")";
-	}
+        o << ")";
+    }
 
-	o << ")";
+    o << ")";
 
     return o;
 }
