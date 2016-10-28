@@ -285,7 +285,7 @@ int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehic
             //Ajouter le sommet d'arrive dans parcourus.
             parcourus->addSommet(minimal->getFin(), minimal->getDistance());
         } else {
-            cout << "Aucun chemin trouve" << endl;
+            cout << "Aucun chemin trouve." << endl;
             aucunChemin = true;
         }
     }
@@ -296,6 +296,7 @@ int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehic
 
 		//Recuperer l'etat du vehicule a partir du bon chemin
 		autonomieRestante = retour->getVehicule()->getAutonomieActuelle();
+		cout <<"Autonomie restante : " <<autonomieRestante <<"/" << retour->getVehicule()->getAutonomieMax() << endl;
 	}
 
 	//Nettoyage
