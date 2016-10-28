@@ -8,14 +8,15 @@
 class Chemin
 {
 public:
-    Chemin(const std::vector<Sommet*>& sommets, int distance, Vehicule* vehicule);
+	Chemin() = delete;
+    Chemin(Vehicule* vehicule);
     Chemin(Chemin& chemin);
     ~Chemin();
 
-    bool contains(Sommet* sommet);
+    bool contains(Sommet* sommet) const;
 
     int getDistance() const;
-    Vehicule* getVehicule();
+    Vehicule* getVehicule() const;
     std::vector<Sommet*> getSommets() const;
 
     void addSommet(Sommet* sommet, int distance);

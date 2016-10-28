@@ -17,20 +17,17 @@ Sommet::~Sommet() {
     }
 }
 
-char Sommet::getName() const
-{
+char Sommet::getName() const {
     return _nom;
 }
 
 char Sommet::getType() const { return _valeur; }
 
-std::vector<Arc*> Sommet::getArcs()
-{
+std::vector<Arc*> Sommet::getArcs() const {
     return _arcs;
 }
 
-void Sommet::addArc(Arc* arc)
-{
+void Sommet::addArc(Arc* arc) {
     _arcs.push_back(arc);
 }
 

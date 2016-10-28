@@ -7,6 +7,7 @@
 
 class Graphe {
 public:
+	Graphe() = delete;
     Graphe(const std::vector<Sommet*>& sommets);
     ~Graphe();
 
