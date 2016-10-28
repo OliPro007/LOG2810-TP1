@@ -260,7 +260,7 @@ int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehic
             Sommet* sommet = chemin->getSommets().at(chemin->getSommets().size() - 1); //Prendre le dernier sommet du chemin
 
             for (auto arc : sommet->getArcs()) { //Trouver le minimum des arcs qui partent de sommet
-                if (!parcourus->contains(arc->getFin()) && arc->getDistance() < chemin->getVehicule()->getAutonomieActuelle()) {
+                if (!parcourus->contains(arc->getFin()) && arc->getDistance() <= chemin->getVehicule()->getAutonomieActuelle()) {
                     if (minimal == nullptr) {
                         //initialiser minimal a un arc par le quel on n'est jamais passe
                         cheminActuel = chemin;
