@@ -2,7 +2,7 @@
 #include <iterator>
 
 Chemin::Chemin(Vehicule* vehicule) 
-	: _sommets(std::vector<Sommet*>()), _distance(0), _vehicule(vehicule) {}
+    : _sommets(std::vector<Sommet*>()), _distance(0), _vehicule(vehicule) {}
 
 Chemin::Chemin(Chemin& chemin) {
     _sommets = chemin._sommets;
@@ -43,10 +43,10 @@ void Chemin::addSommet(Sommet * sommet, int distance) {
 
 std::ostream& operator<<(std::ostream& o, const Chemin& chemin) {
     o << "Chemin : ";
-	for (auto it = chemin._sommets.begin(); it != chemin._sommets.end(); it++) {
-		o << (*it)->getName();
-		if (it != chemin._sommets.end() - 1) o << " -> ";
-	}
+    for (auto it = chemin._sommets.begin(); it != chemin._sommets.end(); it++) {
+        o << (*it)->getName();
+        if (it != chemin._sommets.end() - 1) o << " -> ";
+    }
     o << std::endl << "Distance : " << chemin.getDistance();
     
     return o;

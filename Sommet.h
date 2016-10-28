@@ -9,10 +9,10 @@
 class Arc;
 class Sommet {
 public:
-	Sommet() = delete;
-	Sommet(char nom, char valeur);
+    Sommet() = delete;
+    Sommet(char nom, char valeur);
     Sommet(Sommet* sommet);
-	~Sommet();
+    ~Sommet();
 
     char getName() const;
     char getType() const;
