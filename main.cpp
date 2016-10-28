@@ -14,7 +14,7 @@ using namespace std;
 Graphe* creerGraphe(const string& nomFichier);
 Graphe* extractionGraphe(Graphe* graphe, int autonomieMax);
 void lireGraphe(Graphe* graphe);
-void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule);
+int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule);
 
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------- main
@@ -88,7 +88,7 @@ int main() {
             case 3:
 			{
                 string depart, arrive;
-                if (vehicule->getTypeCarburant() == 'r') {
+                if (!vehicule || vehicule->getTypeCarburant() == 'r') {
                     cerr << "ERREUR: Les caracteristiques du vehicule sont necessaire a la recherche d'un itineraire"
                          << endl;
                     break;
@@ -113,7 +113,7 @@ int main() {
                     }
                 }
                 if (a != nullptr && z != nullptr) {
-                    plusCourtChemin(extractionGraphe(graphe, vehicule->getAutonomieMax()), a, z, vehicule);
+                    vehicule->setAutonomieActuelle(plusCourtChemin(extractionGraphe(graphe, vehicule->getAutonomieMax()), a, z, vehicule));
 
                 }
             }
@@ -236,9 +236,10 @@ Graphe* extractionGraphe(Graphe* graphe, int autonomieMax) {
 //----------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------ plusCourtChemin
 //----------------------------------------------------------------------------------------------------------------------
-void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule) {
+int plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehicule) {
     Chemin* retour = nullptr;
     bool aucunChemin = false;
+    int autonomieRestante = vehicule->getAutonomieActuelle();
 
     //Creer un chemin contenant le point de depart.
     Chemin* parcourus = new Chemin(new Vehicule(vehicule));
@@ -294,7 +295,7 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehi
 		cout << *retour << endl;
 
 		//Recuperer l'etat du vehicule a partir du bon chemin
-		vehicule = new Vehicule(retour->getVehicule());
+		autonomieRestante = retour->getVehicule()->getAutonomieActuelle();
 	}
 
 	//Nettoyage
@@ -302,4 +303,6 @@ void plusCourtChemin(Graphe* graphe, Sommet* depart, Sommet* fin, Vehicule* vehi
         delete chemin;
 
 	delete parcourus;
+
+    return autonomieRestante;
 }
